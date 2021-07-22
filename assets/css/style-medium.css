@@ -1,0 +1,67 @@
+	h1 br, h2 br, h3 br, h4 br, h5 br, h6 br {
+		display: none;
+	}
+
+	ul.icons li .icon {
+		font-size: 1.25em;
+	}
+
+	#header {
+		background-attachment: scroll;
+		background-position: top left,	center center;
+		background-size: auto,		cover;
+		left: auto;
+		padding: 6em 4em;
+		position: relative;
+		text-align: center;
+		top: auto;
+		width: 100%;
+	}
+
+		#header h1 {
+			font-size: 1.15em;
+			width: 95%;
+			left: 0;
+			right: 0;
+		}
+
+			#header h1 br {
+				display: inline;
+			}
+
+	#footer {
+		background-color: #1b1918;
+		position: relative;
+		text-align: center;
+		margin-top: 0;
+		margin-bottom: 0;
+		left: 0;
+		right: 0;
+		max-width: 100%;
+		width: auto;
+	}
+
+	.footer-class {
+		margin-top: 1%;
+	}
+
+		#footer .icons {
+			margin: 0 0 1em 0;
+		}
+
+		#footer .copyright {
+			margin: 0 0 1em 0;
+		}
+
+			#footer .copyright li {
+				border-left-width: 1px;
+				line-height: 1em;
+				margin-left: 0.75em;
+				padding-left: 0.75em;
+			}
+
+	#main {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}

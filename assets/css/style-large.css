@@ -1,0 +1,32 @@
+
+	#header {
+		padding: 6em 3em 3em 3em;
+		width: 30%;
+	}
+
+		#header h1 {
+			font-size: 1.25em;
+		}
+
+			#header h1 br {
+				display: none;
+			}
+
+	#footer {
+		padding: 0 15em 5em 3em;
+		width: 40%;
+	}
+
+		#footer .copyright li {
+			border-left-width: 0;
+			display: block;
+			line-height: 2.25em;
+			margin-left: 0;
+			padding-left: 0;
+		}
+
+	#main {
+		max-width: none;
+		padding: 6em 3em 3em 4em;
+		width: calc(95% - 30%);
+	}
