@@ -1,15 +1,25 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const mysql = require('./mysql/util');
-const fs = require('fs');
-const https = require('https');
 const path = require('path');
+const helmet = require('helmet');
 
 const app = express();
 const port = 3333;
 
-app.get('/', async(req, res) => {
+app.get('/', (req, res) => {
+    var token = req.query.link;
+    if(token) {
+        mysql.getData(token, (error, data) => {
+            if(data == null) {
+                sendTo(res, '/');
+            } else {
+                sendTo(res, data);
+            }
+        });
+        return;
+    }
     res.sendFile(path.join(__dirname, './index.html'));
-    res.has
 });
 
 app.get('/link/:token', async(req, res) => {
@@ -23,7 +33,21 @@ app.get('/link/:token', async(req, res) => {
     });
 });
 
-app.use(express.static(path.join(__dirname, './assets')));
+app.get('/test', (req, res) => {
+    const token = req.query.token;
+    if(token == 'test') res.send('şifre doğru');
+    else res.send('şifre yanlış');
+});
+
+app.post('/contact', (req, res) => {
+    res.end('31');
+});
+
+app.disable('x-powered-by');
+app.use(helmet());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'assets')));
 app.use((req, res) => {
     sendTo(res, '/');
 });
