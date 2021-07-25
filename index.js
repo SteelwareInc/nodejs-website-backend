@@ -1,13 +1,19 @@
 const express = require('express');
-const bodyParser = require("body-parser");
-const mysql = require('./mysql/util');
+const mysql = require('./db/mysql');
+const redis = require('./db/redis');
 const path = require('path');
 const helmet = require('helmet');
+const util = require('./util');
+const sendMail = require('./util/mail');
 
 const app = express();
 const port = 3333;
 
-app.get('/', (req, res) => {
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'assets')));
+
+app.get('/', async(req, res) => {
     var token = req.query.link;
     if(token) {
         mysql.getData(token, (error, data) => {
@@ -33,25 +39,23 @@ app.get('/link/:token', async(req, res) => {
     });
 });
 
-app.get('/test', (req, res) => {
-    const token = req.query.token;
-    if(token == 'test') res.send('şifre doğru');
-    else res.send('şifre yanlış');
+app.post('/contact', (req, res) => {
+    var { name, email, subject, message } = req.body;
+    /*var ipAddress = 
+    if(redis.client.hmget('contact', ''))*/
+    sendMail(name, email, subject, message, (error, data) => {
+        if(error) res.send({error:1});
+        else res.send({sended:true});
+    });
 });
 
-app.post('/contact', (req, res) => {
-    res.end('31');
+app.use((req, res) => {
+    sendTo(res, '/');
 });
 
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'assets')));
-app.use((req, res) => {
-    sendTo(res, '/');
-});
-app.listen(port, () => { console.log('Web server başlatıldı, dinlenen port: ' + port) });
+app.listen(port, () => { util.info('Dinlenen port: ' + port) });
 
 function sendTo(res, url) {
     res.statusCode = 302;
